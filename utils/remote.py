@@ -1578,9 +1578,7 @@ def enable_nvidia_vfs(session, pf_addr):
     log.info("Enabling NVIDIA SR-IOV VFs on remote host %s" % pf_addr)
     status, output = session.get_output_status("%s -e %s" % (sriov_manage, pf_addr))
     if status != 0:
-        log.error(
-            "Failed to enable VFs on %s: %s" % (pf_addr, output.decode().strip())
-        )
+        log.error("Failed to enable VFs on %s: %s" % (pf_addr, output.decode().strip()))
         return []
 
     time.sleep(2)
@@ -1613,9 +1611,7 @@ def set_nvidia_vgpu_type(session, vf_addr, vgpu_type_id):
     escaped = vf_addr.replace(":", r"\:")
     path = "/sys/bus/pci/devices/%s/nvidia/current_vgpu_type" % escaped
 
-    log.info(
-        "Setting vGPU type %s on remote VF %s" % (vgpu_type_id, vf_addr)
-    )
+    log.info("Setting vGPU type %s on remote VF %s" % (vgpu_type_id, vf_addr))
     status = session.get_cmd_status("echo %s > %s" % (vgpu_type_id, path))
     if status != 0:
         log.error("Failed to set vGPU type on remote VF %s" % vf_addr)
